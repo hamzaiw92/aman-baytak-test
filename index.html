@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aman Baytak | أمان بيتك</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --p: #00c853; --s: #1a237e; --bg: #f8f9fa; --white: #ffffff; 
+            --accent: #ff9800; --red: #ff5252; --fb-blue: #1877f2; --wa-green: #25d366;
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body { font-family: 'Tajawal', sans-serif; margin: 0; background: var(--bg); color: #1c1e21; padding-bottom: 90px; overflow-x: hidden; }
+
+        #toast {
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            background: var(--s); color: white; padding: 12px 25px; border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 10001; transition: 0.5s;
+            font-weight: bold; font-size: 14px; text-align: center; min-width: 280px;
+        }
+        #toast.show { top: 20px; }
+
+        .app-header { background: var(--white); padding: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        .app-header h1 { margin: 0; font-size: 22px; color: var(--fb-blue); font-weight: 900; letter-spacing: -1px; }
+
+        #splash { position: fixed; inset: 0; background: white; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+        nav.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); display: flex; justify-content: space-around; padding: 10px 5px; box-shadow: 0 -2px 15px rgba(0,0,0,0.08); z-index: 2000; border-top: 1px solid #eee; }
+        nav.bottom-nav button { background: none; border: none; color: #65676b; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+        nav.bottom-nav button i { font-size: 20px; transition: 0.3s; }
+        nav.bottom-nav button.active { color: var(--fb-blue); }
+
+        .page { display: none; padding: 15px; max-width: 500px; margin: 0 auto; animation: fadeIn 0.3s ease-in; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .card { background: var(--white); padding: 18px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #efefef; }
+        .input-group { margin-bottom: 12px; position: relative; }
+        input, textarea { width: 100%; padding: 12px 40px 12px 12px; border: 1px solid #dddfe2; border-radius: 10px; font-family: inherit; background: #f5f6f7; font-size: 15px; }
+        .input-group i { position: absolute; right: 12px; top: 14px; font-size: 18px; color: #8d949e; }
+
+        .btn-main { background: var(--fb-blue); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 16px; }
+
+        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 15px 0; }
+        .service-btn { background: var(--white); padding: 15px; border-radius: 15px; text-align: center; border: 2px solid transparent; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .service-btn.active { border-color: var(--fb-blue); background: #e7f3ff; }
+
+        .tech-card { background: white; border-radius: 15px; overflow: hidden; margin-bottom: 15px; border: 1px solid #eee; display: flex; align-items: center; padding: 12px; gap: 15px; }
+        .tech-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--fb-blue); }
+        .tech-info { flex: 1; }
+        .tech-info h4 { margin: 0; font-size: 16px; color: #050505; }
+        .tech-info p { margin: 3px 0; font-size: 13px; color: #65676b; }
+        .tech-social { display: flex; gap: 10px; margin-top: 5px; }
+        .tech-social a { color: var(--fb-blue); font-size: 18px; }
+
+        .order-card { background: white; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; overflow: hidden; }
+        .order-head { padding: 12px; background: #fafafa; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
+        .order-body { padding: 12px; font-size: 14px; }
+        .order-foot { padding: 8px; background: #f8f9fa; display: flex; gap: 5px; }
+        .btn-act { flex: 1; padding: 8px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+
+        .icon-blue { color: #1877f2; }
+        .icon-orange { color: #ff9800; }
+        .icon-red { color: #ff5252; }
+    </style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div id="splash">
+    <img src="https://i.ibb.co/v4Rv89wf/1776003967024.png" width="120">
+    <h2 style="color: var(--fb-blue); margin-top:15px; font-weight: 900;">أمان بيتك</h2>
+</div>
+
+<header class="app-header">
+    <h1>أمان بيتك</h1>
+</header>
+
+<nav class="bottom-nav" id="bottom-nav" style="display:none;">
+    <button id="nav-home" class="active" onclick="showTab('home')"><i class="fas fa-home icon-blue"></i>الرئيسية</button>
+    <button id="nav-workers" onclick="showTab('workers')"><i class="fas fa-users icon-blue"></i>الفنيين</button>
+    <button id="nav-ai" onclick="showTab('ai')"><i class="fas fa-comment-dots icon-orange"></i>المساعد</button>
+    <button id="nav-admin" onclick="showTab('admin')"><i class="fas fa-shield-alt icon-red"></i>الإدارة</button>
+</nav>
+
+<div id="home" class="page active">
+    <div class="service-grid">
+        <div class="service-btn active" id="btn-mob" onclick="setService('صيانة موبايل')">
+            <i class="fas fa-mobile-alt icon-blue" style="font-size: 24px; margin-bottom: 5px; display: block;"></i>
+            <span style="font-weight:bold">صيانة موبايل</span>
+        </div>
+        <div class="service-btn" id="btn-cam" onclick="setService('نصب كاميرات')">
+            <i class="fas fa-video icon-blue" style="font-size: 24px; margin-bottom: 5px; display: block;"></i>
+            <span style="font-weight:bold">نصب كاميرات</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 style="margin:0 0 15px 0; font-size:16px;">أرسل طلب صيانة جديد</h3>
+        <div class="input-group"><i class="fas fa-user"></i><input type="text" id="cust-name" placeholder="اسمك الكامل"></div>
+        <div class="input-group"><i class="fas fa-phone"></i><input type="tel" id="cust-phone" placeholder="رقم الهاتف"></div>
+        <div id="dynamic-fields">
+            <div class="input-group"><i class="fas fa-mobile-alt"></i><input type="text" id="cust-model" placeholder="نوع الجهاز"></div>
+            <div class="input-group"><i class="fas fa-tools"></i><input type="text" id="cust-issue" placeholder="وصف العطل"></div>
+        </div>
+        <div class="input-group"><i class="fas fa-map-marker-alt"></i><input type="text" id="cust-address" placeholder="العنوان بالتفصيل"></div>
+        <button class="btn-main" onclick="submitOrder()">نشر الطلب الآن</button>
+    </div>
+</div>
+
+<div id="workers" class="page">
+    <h3 style="margin-bottom:15px; font-size:18px;"><i class="fas fa-certificate icon-blue"></i> فنيينا المعتمدين</h3>
+    <div id="workers-list">
+        <p style="text-align: center; color: #999;">جاري تحميل قائمة الفنيين...</p>
+    </div>
+</div>
+
+<div id="ai" class="page">
+    <div class="card">
+        <h3 style="text-align: center; color: var(--accent);"><i class="fas fa-robot"></i> المساعد الذكي</h3>
+        <div id="chat-box" style="height: 350px; overflow-y: auto; background:#f0f2f5; border-radius:10px; padding:12px; margin-bottom:10px; display:flex; flex-direction:column; gap:8px;"></div>
+        <div style="display:flex; gap:5px;">
+            <input type="text" id="aiInput" placeholder="اكتب سؤالك هنا...">
+            <button onclick="askAI()" style="width:50px; background:var(--fb-blue); border:none; border-radius:8px; color:white;"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<div id="admin" class="page">
+    <div id="login-section" class="card">
+        <h3 style="text-align:center;">تسجيل دخول الإدارة</h3>
+        <div class="input-group"><i class="fas fa-user-lock"></i><input type="text" id="login-user" placeholder="اسم المستخدم"></div>
+        <div class="input-group"><i class="fas fa-key"></i><input type="password" id="login-pass" placeholder="كلمة المرور"></div>
+        <button class="btn-main" style="background:var(--red);" onclick="handleLogin()">دخول</button>
+    </div>
+
+    <div id="dashboard" style="display:none;">
+        <div class="card" style="background: #e7f3ff; border: 1px solid #1877f2;">
+            <h4 style="margin:0; color:#1877f2;"><i class="fas fa-user-shield"></i> أهلاً بك يا مدير</h4>
+        </div>
+
+        <div id="admin-only" class="card">
+            <h4 style="margin-top:0;"><i class="fas fa-plus-circle"></i> إضافة فني جديد</h4>
+            <div class="input-group"><i class="fas fa-user"></i><input type="text" id="tech-name" placeholder="اسم الفني"></div>
+            <div class="input-group"><i class="fas fa-briefcase"></i><input type="text" id="tech-job" placeholder="الاختصاص"></div>
+            <div class="input-group"><i class="fas fa-image"></i><input type="text" id="tech-img-url" placeholder="رابط صورة الفني"></div>
+            <div class="input-group"><i class="fab fa-facebook"></i><input type="text" id="tech-fb-url" placeholder="رابط صفحة الفيسبوك"></div>
+            <button class="btn-main" style="background:var(--p);" onclick="addTech()">حفظ الفني</button>
+        </div>
+
+        <h4 style="margin: 20px 0 10px 0;">الطلبات الحالية:</h4>
+        <div id="orders-list"></div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBtQaVNSMC2Pkq0HmS2rql0So-4zK-czC0",
+        authDomain: "aman-baytak-app.firebaseapp.com",
+        databaseURL: "https://aman-baytak-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "aman-baytak-app",
+        storageBucket: "aman-baytak-app.firebasestorage.app",
+        appId: "1:986750911757:web:2b1693053e5641ca6b5c44"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    let currentService = "صيانة موبايل";
+    let isAdmin = false;
+
+    window.showTab = (t) => {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(t).classList.add('active');
+        document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById('nav-'+t).classList.add('active');
+        if(t === 'workers') loadWorkers();
+    };
+
+    window.setService = (s) => {
+        currentService = s;
+        document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
+        const fields = document.getElementById('dynamic-fields');
+        if(s === 'صيانة موبايل') {
+            document.getElementById('btn-mob').classList.add('active');
+            fields.innerHTML = `<div class="input-group"><i class="fas fa-mobile-alt"></i><input type="text" id="cust-model" placeholder="نوع الجهاز"></div><div class="input-group"><i class="fas fa-tools"></i><input type="text" id="cust-issue" placeholder="وصف العطل"></div>`;
+        } else {
+            document.getElementById('btn-cam').classList.add('active');
+            fields.innerHTML = `<div class="input-group"><i class="fas fa-camera"></i><input type="number" id="cust-cam-count" placeholder="كم كاميرا تحتاج؟"></div><div class="input-group"><i class="fas fa-clipboard-list"></i><textarea id="cust-notes" placeholder="ملاحظات إضافية..."></textarea></div>`;
+        }
+    };
+
+    window.notify = (msg, isError = false) => {
+        const toast = document.getElementById('toast');
+        toast.innerText = msg;
+        toast.style.background = isError ? '#fa3e3e' : '#1877f2';
+        toast.className = 'show';
+        setTimeout(() => toast.className = '', 3000);
+    };
+
+    window.submitOrder = async () => {
+        const name = document.getElementById('cust-name').value;
+        const phone = document.getElementById('cust-phone').value;
+        if(!name || !phone) return notify("يرجى إدخال الاسم والرقم", true);
+        const data = { service: currentService, name, phone, address: document.getElementById('cust-address').value, date: new Date().toLocaleString('ar-EG') };
+        if(currentService === 'صيانة موبايل') {
+            data.model = document.getElementById('cust-model').value;
+            data.issue = document.getElementById('cust-issue').value;
+        } else {
+            data.camCount = document.getElementById('cust-cam-count').value;
+            data.notes = document.getElementById('cust-notes').value;
+        }
+        try {
+            await push(ref(db, 'orders'), data);
+            notify("تم إرسال طلبك..");
+            setTimeout(() => location.reload(), 1500);
+        } catch { notify("فشل الاتصال", true); }
+    };
+
+    // --- نظام تسجيل الدخول المعدل ---
+    window.handleLogin = () => {
+        const u = document.getElementById('login-user').value;
+        const p = document.getElementById('login-pass').value;
+        
+        // التحقق من الباسورد الثابت
+        if(p === 'hamza199200') {
+            isAdmin = true;
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadOrders();
+            notify("تم تسجيل دخول المدير");
+        } else {
+            notify("كلمة المرور غير صحيحة", true);
+        }
+    };
+
+    function loadOrders() {
+        onValue(ref(db, 'orders'), (snap) => {
+            const list = document.getElementById('orders-list');
+            list.innerHTML = "";
+            snap.forEach(c => {
+                const o = c.val();
+                const id = c.key;
+                const isMob = o.service === 'صيانة موبايل';
+                list.innerHTML += `<div class="order-card"><div class="order-head"><b>${o.name}</b><span style="color:#1877f2; font-size:12px;">${o.service}</span></div><div class="order-body"><b>التفاصيل:</b> ${isMob ? o.model : o.camCount + ' كاميرا'}<br><b>الوصف:</b> ${o.issue || o.notes || 'لا يوجد'}<br><b>العنوان:</b> ${o.address}</div><div class="order-foot"><button class="btn-act" style="background:#e7f3ff; color:#1877f2;" onclick="window.open('tel:${o.phone}')"><i class="fas fa-phone"></i> اتصال</button><button class="btn-act" style="background:#e8f9ee; color:#25d366;" onclick="window.open('https://wa.me/964${o.phone.replace(/^0/, '')}')"><i class="fab fa-whatsapp"></i> واتساب</button><button class="btn-act" style="background:#1877f2; color:white;" onclick="finishOrder('${id}')">إنجاز</button></div></div>`;
+            });
+        });
+    }
+
+    window.finishOrder = (id) => { 
+        if(!isAdmin) return notify("غير مصرح لك", true);
+        if(confirm('هل تريد حذف الطلب المنجز؟')) remove(ref(db, 'orders/' + id)); 
+    };
+
+    window.addTech = async () => {
+        if(!isAdmin) return notify("غير مصرح لك", true);
+        const name = document.getElementById('tech-name').value;
+        const job = document.getElementById('tech-job').value;
+        const img = document.getElementById('tech-img-url').value;
+        const fb = document.getElementById('tech-fb-url').value;
+        if(!name || !job) return notify("أكمل بيانات الفني", true);
+        try {
+            await push(ref(db, 'workers'), { name, job, img, fb });
+            notify("تمت إضافة الفني بنجاح");
+            document.querySelectorAll('#admin-only input').forEach(i => i.value = "");
+        } catch { notify("فشل الإضافة", true); }
+    };
+
+    function loadWorkers() {
+        onValue(ref(db, 'workers'), (snap) => {
+            const list = document.getElementById('workers-list');
+            list.innerHTML = "";
+            if(!snap.exists()) { list.innerHTML = "<p style='text-align:center; color:#999;'>لا يوجد فنيين حالياً</p>"; return; }
+            snap.forEach(c => {
+                const w = c.val();
+                list.innerHTML += `<div class="tech-card"><img src="${w.img || 'https://via.placeholder.com/70'}" class="tech-img"><div class="tech-info"><h4>${w.name}</h4><p>${w.job}</p><div class="tech-social">${w.fb ? `<a href="${w.fb}" target="_blank"><i class="fab fa-facebook"></i></a>` : ''}</div></div></div>`;
+            });
+        });
+    }
+
+    // --- المساعد الذكي ---
+    const GEMINI_KEY = "AIzaSyDWpXnCrahX-fTN-aAq-A5l9E1m4qgs-tc";
+    window.askAI = async () => {
+        const input = document.getElementById("aiInput");
+        const box = document.getElementById("chat-box");
+        const userMsg = input.value.trim();
+        if(!userMsg) return;
+
+        box.innerHTML += `<div style="align-self:flex-start; background:var(--fb-blue); color:white; padding:8px 12px; border-radius:15px; max-width:80%; font-size:14px;">${userMsg}</div>`;
+        input.value = "";
+        box.scrollTop = box.scrollHeight;
+
+        const loadingId = "loading-" + Date.now();
+        box.innerHTML += `<div id="${loadingId}" style="align-self:flex-end; background:#e4e6eb; color:#65676b; padding:8px 12px; border-radius:15px; font-size:12px;">جاري التفكير...</div>`;
+        box.scrollTop = box.scrollHeight;
+
+        try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ contents: [{ parts: [{ text: userMsg + " (أجب بلهجة عراقية بسيطة ومختصرة جداً بصفتك مساعد تقني لتطبيق أمان بيتك المختص بصيانة الموبايلات والكاميرات)" }] }] })
+            });
+            const data = await res.json();
+            document.getElementById(loadingId).remove();
+            if(data.candidates && data.candidates[0]) {
+                const reply = data.candidates[0].content.parts[0].text;
+                box.innerHTML += `<div style="align-self:flex-end; background:#e4e6eb; color:black; padding:8px 12px; border-radius:15px; max-width:80%; font-size:14px;">${reply}</div>`;
+            } else { throw new Error(); }
+        } catch {
+            if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+            box.innerHTML += `<div style="align-self:flex-end; background:#ffebee; color:#c62828; padding:8px 12px; border-radius:15px; max-width:80%; font-size:13px;">المساعد مشغول، حاول مرة ثانية.</div>`;
+        }
+        box.scrollTop = box.scrollHeight;
+    };
+
+    window.onload = () => {
+        setTimeout(() => {
+            document.getElementById('splash').style.display = 'none';
+            document.getElementById('bottom-nav').style.display = 'flex';
+        }, 1500);
+        loadWorkers();
+    };
+</script>
+</body>
+</html>
