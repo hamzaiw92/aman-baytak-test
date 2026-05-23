@@ -2,332 +2,623 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Aman Baytak | أمان بيتك</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حجز خطوط البصرة</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root { 
-            --p: #00c853; --s: #1a237e; --bg: #f8f9fa; --white: #ffffff; 
-            --accent: #ff9800; --red: #ff5252; --fb-blue: #1877f2; --wa-green: #25d366;
+        :root {
+            --primary-blue: #1e62d0;
+            --gradient-start: #1e62d0;
+            --gradient-end: #8a2be2;
+            --bg-light: #f4f7fe;
+            --card-bg: #ffffff;
+            --text-dark: #2d3748;
+            --text-gray: #718096;
+            --green-accent: #155724;
+            --green-bg: #d4edda;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background: #fdfdfd;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        .main-header {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 10px rgba(30, 98, 208, 0.2);
+        }
+
+        .header-title-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header-title-box h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .header-title-box i {
+            font-size: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            border-radius: 12px;
+        }
+
+        .admin-trigger {
+            position: absolute;
+            left: 5px;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 4px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .tab-btn i {
+            font-size: 16px;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: var(--primary-blue);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .app-content {
+            padding: 16px;
+            flex: 1;
+            padding-bottom: 80px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f7;
+        }
+
+        .card-title-banner {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            color: white;
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .card-title-banner.green-version {
+            background: linear-gradient(135deg, #14532d, #166534);
+        }
+
+        .card-title-banner i {
+            font-size: 32px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .card-title-banner h2 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .card-title-banner p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+        }
+
+        .form-group label span {
+            color: red;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            right: 12px;
+            color: var(--text-gray);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 40px 12px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            background-color: #fafafa;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-blue);
+            background-color: white;
+        }
+
+        .row-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            margin-top: 3px;
+            accent-color: var(--primary-blue);
+        }
+
+        .checkbox-group label {
+            font-size: 13px;
+            color: var(--text-gray);
+            line-height: 1.5;
+        }
+
+        .checkbox-group a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #4f46e5, #3b82f6);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .search-container {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            padding: 25px;
+            border-radius: 16px;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .filter-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .filter-btn {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--text-dark);
+        }
+
+        .filter-btn.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .badge {
+            background: rgba(0,0,0,0.1);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .filter-btn.active .badge {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .driver-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid #edf2f7;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+        }
+
+        .driver-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .driver-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .driver-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background-color: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
         
-        body { font-family: 'Tajawal', sans-serif; margin: 0; background: var(--bg); color: #1c1e21; padding-bottom: 90px; overflow-x: hidden; }
-
-        #toast {
-            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
-            background: var(--s); color: white; padding: 12px 25px; border-radius: 50px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 10001; transition: 0.5s;
-            font-weight: bold; font-size: 14px; text-align: center; min-width: 280px;
+        .driver-avatar.student-avatar {
+            background-color: #f3e8ff;
+            color: #7c3aed;
         }
-        #toast.show { top: 20px; }
 
-        .app-header { background: var(--white); padding: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
-        .app-header h1 { margin: 0; font-size: 22px; color: var(--fb-blue); font-weight: 900; letter-spacing: -1px; }
+        .driver-name h4 {
+            font-size: 15px;
+            font-weight: 700;
+        }
 
-        #splash { position: fixed; inset: 0; background: white; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .driver-name p {
+            font-size: 12px;
+            color: var(--text-gray);
+            margin-top: 2px;
+        }
 
-        nav.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); display: flex; justify-content: space-around; padding: 10px 5px; box-shadow: 0 -2px 15px rgba(0,0,0,0.08); z-index: 2000; border-top: 1px solid #eee; }
-        nav.bottom-nav button { background: none; border: none; color: #65676b; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
-        nav.bottom-nav button i { font-size: 20px; transition: 0.3s; }
-        nav.bottom-nav button.active { color: var(--fb-blue); }
+        .price-tag {
+            background-color: #e6fffa;
+            color: #047481;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+        }
 
-        .page { display: none; padding: 15px; max-width: 500px; margin: 0 auto; animation: fadeIn 0.3s ease-in; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .driver-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px dashed #e2e8f0;
+            padding-top: 12px;
+        }
 
-        .card { background: var(--white); padding: 18px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #efefef; }
-        .input-group { margin-bottom: 12px; position: relative; }
-        input, textarea { width: 100%; padding: 12px 40px 12px 12px; border: 1px solid #dddfe2; border-radius: 10px; font-family: inherit; background: #f5f6f7; font-size: 15px; }
-        .input-group i { position: absolute; right: 12px; top: 14px; font-size: 18px; color: #8d949e; }
+        .seats-left {
+            color: #c05621;
+            background-color: #fffaf0;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
-        .btn-main { background: var(--fb-blue); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 16px; }
+        .btn-connect {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
 
-        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 15px 0; }
-        .service-btn { background: var(--white); padding: 15px; border-radius: 15px; text-align: center; border: 2px solid transparent; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .service-btn.active { border-color: var(--fb-blue); background: #e7f3ff; }
+        .admin-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #edf2f7;
+        }
 
-        .tech-card { background: white; border-radius: 15px; overflow: hidden; margin-bottom: 15px; border: 1px solid #eee; display: flex; align-items: center; padding: 12px; gap: 15px; }
-        .tech-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--fb-blue); }
-        .tech-info { flex: 1; }
-        .tech-info h4 { margin: 0; font-size: 16px; color: #050505; }
-        .tech-info p { margin: 3px 0; font-size: 13px; color: #65676b; }
-        .tech-social { display: flex; gap: 10px; margin-top: 5px; }
-        .tech-social a { color: var(--fb-blue); font-size: 18px; }
-
-        .order-card { background: white; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; overflow: hidden; }
-        .order-head { padding: 12px; background: #fafafa; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
-        .order-body { padding: 12px; font-size: 14px; }
-        .order-foot { padding: 8px; background: #f8f9fa; display: flex; gap: 5px; }
-        .btn-act { flex: 1; padding: 8px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-
-        .icon-blue { color: #1877f2; }
-        .icon-orange { color: #ff9800; }
-        .icon-red { color: #ff5252; }
+        .btn-delete {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
 
-<div id="toast"></div>
+    <div class="app-container">
+        <header class="main-header">
+            <div class="header-title-box">
+                <button class="admin-trigger" id="adminTriggerBtn"><i class="fa-solid fa-lock" style="font-size: 12px; padding: 0; background: none;"></i></button>
+                <i class="fa-solid fa-bus"></i>
+                <h1>حجز خطوط البصرة</h1>
+            </div>
+            
+            <nav class="nav-tabs">
+                <button id="tab-btn-line" class="tab-btn active">
+                    <i class="fa-solid fa-bus-simple"></i>
+                    <span>طلب خط</span>
+                </button>
+                <button id="tab-btn-explore" class="tab-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>استكشاف</span>
+                </button>
+                <button id="tab-btn-driver" class="tab-btn">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <span>أنا سائق</span>
+                </button>
+            </nav>
+        </header>
 
-<div id="splash">
-    <img src="https://i.ibb.co/v4Rv89wf/1776003967024.png" width="120">
-    <h2 style="color: var(--fb-blue); margin-top:15px; font-weight: 900;">أمان بيتك</h2>
-</div>
+        <main class="app-content">
 
-<header class="app-header">
-    <h1>أمان بيتك</h1>
-</header>
+            <section id="tab-line" class="page active">
+                <div class="card-title-banner">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <h2>أضف طلب خط جديد</h2>
+                    <p>أضف طلبك وسيتواصل معك السائق المناسب</p>
+                </div>
 
-<nav class="bottom-nav" id="bottom-nav" style="display:none;">
-    <button id="nav-home" class="active" onclick="showTab('home')"><i class="fas fa-home icon-blue"></i>الرئيسية</button>
-    <button id="nav-workers" onclick="showTab('workers')"><i class="fas fa-users icon-blue"></i>الفنيين</button>
-    <button id="nav-ai" onclick="showTab('ai')"><i class="fas fa-comment-dots icon-orange"></i>المساعد</button>
-    <button id="nav-admin" onclick="showTab('admin')"><i class="fas fa-shield-alt icon-red"></i>الإدارة</button>
-</nav>
+                <div class="card">
+                    <form id="lineForm" onsubmit="event.preventDefault();">
+                        <div class="form-group">
+                            <label>اسم الطالب أو الموظف <span>*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-user"></i>
+                                <input type="text" id="studentName" class="form-control" placeholder="أدخل اسمك الكامل" required>
+                            </div>
+                        </div>
 
-<div id="home" class="page active">
-    <div class="service-grid">
-        <div class="service-btn active" id="btn-mob" onclick="setService('صيانة موبايل')">
-            <i class="fas fa-mobile-alt icon-blue" style="font-size: 24px; margin-bottom: 5px; display: block;"></i>
-            <span style="font-weight:bold">صيانة موبايل</span>
-        </div>
-        <div class="service-btn" id="btn-cam" onclick="setService('نصب كاميرات')">
-            <i class="fas fa-video icon-blue" style="font-size: 24px; margin-bottom: 5px; display: block;"></i>
-            <span style="font-weight:bold">نصب كاميرات</span>
-        </div>
-    </div>
+                        <div class="form-group">
+                            <label>رقم واتساب <span>*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fa-brands fa-whatsapp"></i>
+                                <input type="tel" id="studentWhatsapp" class="form-control" placeholder="077xxxxxxxx" style="direction: ltr; text-align: right;" required>
+                            </div>
+                        </div>
 
-    <div class="card">
-        <h3 style="margin:0 0 15px 0; font-size:16px;">أرسل طلب صيانة جديد</h3>
-        <div class="input-group"><i class="fas fa-user"></i><input type="text" id="cust-name" placeholder="اسمك الكامل"></div>
-        <div class="input-group"><i class="fas fa-phone"></i><input type="tel" id="cust-phone" placeholder="رقم الهاتف"></div>
-        <div id="dynamic-fields">
-            <div class="input-group"><i class="fas fa-mobile-alt"></i><input type="text" id="cust-model" placeholder="نوع الجهاز"></div>
-            <div class="input-group"><i class="fas fa-tools"></i><input type="text" id="cust-issue" placeholder="وصف العطل"></div>
-        </div>
-        <div class="input-group"><i class="fas fa-map-marker-alt"></i><input type="text" id="cust-address" placeholder="العنوان بالتفصيل"></div>
-        <button class="btn-main" onclick="submitOrder()">نشر الطلب الآن</button>
-    </div>
-</div>
+                        <div class="row-inputs">
+                            <div class="form-group">
+                                <label>انستغرام</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-brands fa-instagram"></i>
+                                    <input type="text" id="studentInsta" class="form-control" placeholder="@username">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>تيليغرام</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-paper-plane" style="font-size: 12px;"></i>
+                                    <input type="text" id="studentTele" class="form-control" placeholder="@username">
+                                </div>
+                            </div>
+                        </div>
 
-<div id="workers" class="page">
-    <h3 style="margin-bottom:15px; font-size:18px;"><i class="fas fa-certificate icon-blue"></i> فنيينا المعتمدين</h3>
-    <div id="workers-list">
-        <p style="text-align: center; color: #999;">جاري تحميل قائمة الفنيين...</p>
-    </div>
-</div>
+                        <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 15px;">
+                            <p style="font-size: 13px; font-weight: 700; margin-bottom: 10px; color: #1e3a8a;"><i class="fa-solid fa-location-dot"></i> المسار</p>
+                            <div class="row-inputs">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label>من منطقة <span>*</span></label>
+                                    <input type="text" id="studentFrom" class="form-control" placeholder="مثال: الزبير" required>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label>إلى منطقة <span>*</span></label>
+                                    <input type="text" id="studentTo" class="form-control" placeholder="مثال: البصرة" required>
+                                </div>
+                            </div>
+                        </div>
 
-<div id="ai" class="page">
-    <div class="card">
-        <h3 style="text-align: center; color: var(--accent);"><i class="fas fa-robot"></i> المساعد الذكي</h3>
-        <div id="chat-box" style="height: 350px; overflow-y: auto; background:#f0f2f5; border-radius:10px; padding:12px; margin-bottom:10px; display:flex; flex-direction:column; gap:8px;"></div>
-        <div style="display:flex; gap:5px;">
-            <input type="text" id="aiInput" placeholder="اكتب سؤالك هنا...">
-            <button onclick="askAI()" style="width:50px; background:var(--fb-blue); border:none; border-radius:8px; color:white;"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-</div>
+                        <div class="form-group">
+                            <label>رمز سري للحذف (اختياري)</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-lock"></i>
+                                <input type="password" id="studentPassword" class="form-control" placeholder="رمز تختاره لحذف طلبك لاحقاً">
+                            </div>
+                        </div>
 
-<div id="admin" class="page">
-    <div id="login-section" class="card">
-        <h3 style="text-align:center;">تسجيل دخول الإدارة</h3>
-        <div class="input-group"><i class="fas fa-user-lock"></i><input type="text" id="login-user" placeholder="اسم المستخدم"></div>
-        <div class="input-group"><i class="fas fa-key"></i><input type="password" id="login-pass" placeholder="كلمة المرور"></div>
-        <button class="btn-main" style="background:var(--red);" onclick="handleLogin()">دخول</button>
-    </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">أوافق على <a href="#">سياسة الخصوصية</a> ونشر الطلب للعموم</label>
+                        </div>
 
-    <div id="dashboard" style="display:none;">
-        <div class="card" style="background: #e7f3ff; border: 1px solid #1877f2;">
-            <h4 style="margin:0; color:#1877f2;"><i class="fas fa-user-shield"></i> أهلاً بك يا مدير</h4>
-        </div>
+                        <button class="btn-submit" type="button" id="submitRequestBtn">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>نشر الطلب الآن</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
 
-        <div id="admin-only" class="card">
-            <h4 style="margin-top:0;"><i class="fas fa-plus-circle"></i> إضافة فني جديد</h4>
-            <div class="input-group"><i class="fas fa-user"></i><input type="text" id="tech-name" placeholder="اسم الفني"></div>
-            <div class="input-group"><i class="fas fa-briefcase"></i><input type="text" id="tech-job" placeholder="الاختصاص"></div>
-            <div class="input-group"><i class="fas fa-image"></i><input type="text" id="tech-img-url" placeholder="رابط صورة الفني"></div>
-            <div class="input-group"><i class="fab fa-facebook"></i><input type="text" id="tech-fb-url" placeholder="رابط صفحة الفيسبوك"></div>
-            <button class="btn-main" style="background:var(--p);" onclick="addTech()">حفظ الفني</button>
-        </div>
+            <section id="tab-explore" class="page">
+                <div class="search-container">
+                    <h3 style="font-size: 18px; font-weight: 700;">استكشاف</h3>
+                    <p style="font-size: 13px; opacity: 0.9;">ابحث عن سائق أو طلب مناسب...</p>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="ابحث بالاسم أو المنطقة...">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                </div>
 
-        <h4 style="margin: 20px 0 10px 0;">الطلبات الحالية:</h4>
-        <div id="orders-list"></div>
-    </div>
-</div>
+                <div class="filter-toggle">
+                    <button id="btnDrivers" class="filter-btn active">
+                        <span>السائقون</span> <span class="badge" id="count-drivers">0</span>
+                    </button>
+                    <button id="btnRequests" class="filter-btn">
+                        <span>الطلبات</span> <span class="badge" id="count-requests">0</span>
+                    </button>
+                </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+                <div id="explore-list-container"></div>
+            </section>
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBtQaVNSMC2Pkq0HmS2rql0So-4zK-czC0",
-        authDomain: "aman-baytak-app.firebaseapp.com",
-        databaseURL: "https://aman-baytak-app-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "aman-baytak-app",
-        storageBucket: "aman-baytak-app.firebasestorage.app",
-        appId: "1:986750911757:web:2b1693053e5641ca6b5c44"
-    };
+            <section id="tab-driver" class="page">
+                <div class="card-title-banner green-version">
+                    <i class="fa-solid fa-car"></i>
+                    <h2>بوابة السائق</h2>
+                    <p>سجّل بيانات خطك أو قم بتحديثها الآن</p>
+                </div>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    let currentService = "صيانة موبايل";
-    let isAdmin = false;
+                <div class="filter-toggle">
+                    <button id="btn-driver-login" class="filter-btn active">دخول السائق</button>
+                    <button id="btn-driver-reg" class="filter-btn">سائق جديد</button>
+                </div>
 
-    window.showTab = (t) => {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(t).classList.add('active');
-        document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
-        document.getElementById('nav-'+t).classList.add('active');
-        if(t === 'workers') loadWorkers();
-    };
+                <div id="driver-login-box" class="card">
+                    <div class="form-group">
+                        <label>أدخل الكود الخاص بك (مثال: DR-1234)</label>
+                        <input type="text" id="loginDriverCode" class="form-control" placeholder="DR-XXXX">
+                    </div>
+                    <button class="btn-submit" style="background: #166534;" id="loginDriverBtn">دخول وتعديل البيانات</button>
+                </div>
 
-    window.setService = (s) => {
-        currentService = s;
-        document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
-        const fields = document.getElementById('dynamic-fields');
-        if(s === 'صيانة موبايل') {
-            document.getElementById('btn-mob').classList.add('active');
-            fields.innerHTML = `<div class="input-group"><i class="fas fa-mobile-alt"></i><input type="text" id="cust-model" placeholder="نوع الجهاز"></div><div class="input-group"><i class="fas fa-tools"></i><input type="text" id="cust-issue" placeholder="وصف العطل"></div>`;
-        } else {
-            document.getElementById('btn-cam').classList.add('active');
-            fields.innerHTML = `<div class="input-group"><i class="fas fa-camera"></i><input type="number" id="cust-cam-count" placeholder="كم كاميرا تحتاج؟"></div><div class="input-group"><i class="fas fa-clipboard-list"></i><textarea id="cust-notes" placeholder="ملاحظات إضافية..."></textarea></div>`;
-        }
-    };
-
-    window.notify = (msg, isError = false) => {
-        const toast = document.getElementById('toast');
-        toast.innerText = msg;
-        toast.style.background = isError ? '#fa3e3e' : '#1877f2';
-        toast.className = 'show';
-        setTimeout(() => toast.className = '', 3000);
-    };
-
-    window.submitOrder = async () => {
-        const name = document.getElementById('cust-name').value;
-        const phone = document.getElementById('cust-phone').value;
-        if(!name || !phone) return notify("يرجى إدخال الاسم والرقم", true);
-        const data = { service: currentService, name, phone, address: document.getElementById('cust-address').value, date: new Date().toLocaleString('ar-EG') };
-        if(currentService === 'صيانة موبايل') {
-            data.model = document.getElementById('cust-model').value;
-            data.issue = document.getElementById('cust-issue').value;
-        } else {
-            data.camCount = document.getElementById('cust-cam-count').value;
-            data.notes = document.getElementById('cust-notes').value;
-        }
-        try {
-            await push(ref(db, 'orders'), data);
-            notify("تم إرسال طلبك..");
-            setTimeout(() => location.reload(), 1500);
-        } catch { notify("فشل الاتصال", true); }
-    };
-
-    // --- نظام تسجيل الدخول المعدل ---
-    window.handleLogin = () => {
-        const u = document.getElementById('login-user').value;
-        const p = document.getElementById('login-pass').value;
-        
-        // التحقق من الباسورد الثابت
-        if(p === 'hamza199200') {
-            isAdmin = true;
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            loadOrders();
-            notify("تم تسجيل دخول المدير");
-        } else {
-            notify("كلمة المرور غير صحيحة", true);
-        }
-    };
-
-    function loadOrders() {
-        onValue(ref(db, 'orders'), (snap) => {
-            const list = document.getElementById('orders-list');
-            list.innerHTML = "";
-            snap.forEach(c => {
-                const o = c.val();
-                const id = c.key;
-                const isMob = o.service === 'صيانة موبايل';
-                list.innerHTML += `<div class="order-card"><div class="order-head"><b>${o.name}</b><span style="color:#1877f2; font-size:12px;">${o.service}</span></div><div class="order-body"><b>التفاصيل:</b> ${isMob ? o.model : o.camCount + ' كاميرا'}<br><b>الوصف:</b> ${o.issue || o.notes || 'لا يوجد'}<br><b>العنوان:</b> ${o.address}</div><div class="order-foot"><button class="btn-act" style="background:#e7f3ff; color:#1877f2;" onclick="window.open('tel:${o.phone}')"><i class="fas fa-phone"></i> اتصال</button><button class="btn-act" style="background:#e8f9ee; color:#25d366;" onclick="window.open('https://wa.me/964${o.phone.replace(/^0/, '')}')"><i class="fab fa-whatsapp"></i> واتساب</button><button class="btn-act" style="background:#1877f2; color:white;" onclick="finishOrder('${id}')">إنجاز</button></div></div>`;
-            });
-        });
-    }
-
-    window.finishOrder = (id) => { 
-        if(!isAdmin) return notify("غير مصرح لك", true);
-        if(confirm('هل تريد حذف الطلب المنجز؟')) remove(ref(db, 'orders/' + id)); 
-    };
-
-    window.addTech = async () => {
-        if(!isAdmin) return notify("غير مصرح لك", true);
-        const name = document.getElementById('tech-name').value;
-        const job = document.getElementById('tech-job').value;
-        const img = document.getElementById('tech-img-url').value;
-        const fb = document.getElementById('tech-fb-url').value;
-        if(!name || !job) return notify("أكمل بيانات الفني", true);
-        try {
-            await push(ref(db, 'workers'), { name, job, img, fb });
-            notify("تمت إضافة الفني بنجاح");
-            document.querySelectorAll('#admin-only input').forEach(i => i.value = "");
-        } catch { notify("فشل الإضافة", true); }
-    };
-
-    function loadWorkers() {
-        onValue(ref(db, 'workers'), (snap) => {
-            const list = document.getElementById('workers-list');
-            list.innerHTML = "";
-            if(!snap.exists()) { list.innerHTML = "<p style='text-align:center; color:#999;'>لا يوجد فنيين حالياً</p>"; return; }
-            snap.forEach(c => {
-                const w = c.val();
-                list.innerHTML += `<div class="tech-card"><img src="${w.img || 'https://via.placeholder.com/70'}" class="tech-img"><div class="tech-info"><h4>${w.name}</h4><p>${w.job}</p><div class="tech-social">${w.fb ? `<a href="${w.fb}" target="_blank"><i class="fab fa-facebook"></i></a>` : ''}</div></div></div>`;
-            });
-        });
-    }
-
-    // --- المساعد الذكي ---
-    const GEMINI_KEY = "AIzaSyDWpXnCrahX-fTN-aAq-A5l9E1m4qgs-tc";
-    window.askAI = async () => {
-        const input = document.getElementById("aiInput");
-        const box = document.getElementById("chat-box");
-        const userMsg = input.value.trim();
-        if(!userMsg) return;
-
-        box.innerHTML += `<div style="align-self:flex-start; background:var(--fb-blue); color:white; padding:8px 12px; border-radius:15px; max-width:80%; font-size:14px;">${userMsg}</div>`;
-        input.value = "";
-        box.scrollTop = box.scrollHeight;
-
-        const loadingId = "loading-" + Date.now();
-        box.innerHTML += `<div id="${loadingId}" style="align-self:flex-end; background:#e4e6eb; color:#65676b; padding:8px 12px; border-radius:15px; font-size:12px;">جاري التفكير...</div>`;
-        box.scrollTop = box.scrollHeight;
-
-        try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: userMsg + " (أجب بلهجة عراقية بسيطة ومختصرة جداً بصفتك مساعد تقني لتطبيق أمان بيتك المختص بصيانة الموبايلات والكاميرات)" }] }] })
-            });
-            const data = await res.json();
-            document.getElementById(loadingId).remove();
-            if(data.candidates && data.candidates[0]) {
-                const reply = data.candidates[0].content.parts[0].text;
-                box.innerHTML += `<div style="align-self:flex-end; background:#e4e6eb; color:black; padding:8px 12px; border-radius:15px; max-width:80%; font-size:14px;">${reply}</div>`;
-            } else { throw new Error(); }
-        } catch {
-            if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-            box.innerHTML += `<div style="align-self:flex-end; background:#ffebee; color:#c62828; padding:8px 12px; border-radius:15px; max-width:80%; font-size:13px;">المساعد مشغول، حاول مرة ثانية.</div>`;
-        }
-        box.scrollTop = box.scrollHeight;
-    };
-
-    window.onload = () => {
-        setTimeout(() => {
-            document.getElementById('splash').style.display = 'none';
-            document.getElementById('bottom-nav').style.display = 'flex';
-        }, 1500);
-        loadWorkers();
-    };
-</script>
-</body>
-</html>
+                <div id="driver-reg-box" class="card" style="display: none;">
+                    <div class="form-group">
+                        <label>الاسم الكامل</label>
+                        <input type="text" id="drvName" class="form-control" placeholder="مثال: محمد علي">
+                    </div>
+                    <div class="form-group">
+             
